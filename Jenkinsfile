@@ -13,12 +13,12 @@ pipeline {
         }       
         stage('Run backend_testin') {
             steps {
-                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/backend_testin.py'
+                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/backend_testing.py'
             }
         }
         stage('Run frontend_testin') {
             steps {
-                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/frontend_testin.py'
+                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/frontend_testing.py'
             }
         }
 
