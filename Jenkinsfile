@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Run rest_app') {
             steps {
-                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/rest_app.py'
+                sh 'nohup python3 /Users/oriel.goel/PycharmProjects/Project/rest_app.py &'
             }
         }
         stage('Run web_app') {
             steps {
-                sh 'python3 /Users/oriel.goel/PycharmProjects/Project/web_app.py'
+                sh 'nohup python3 /Users/oriel.goel/PycharmProjects/Project/web_app.py &'
             }
         }       
         stage('Run backend_testin') {
