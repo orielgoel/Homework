@@ -24,8 +24,6 @@ pipeline {
         stage('Build and push image') {
             environment {
                 registry = "oriel360/devops_jenkins_project" // The name of your user and repository (which can be created manually)
-                registryCredential = 'docker_hub' // The credentials used for your repository
-                dockerImage = '' // will be overridden later
             }
             steps {
                 script {
