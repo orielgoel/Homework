@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         registry = "oriel360/devops_jenkins_project" // The name of your user and repository (which can be created manually)
+        dockerfilePath = 'Project/Dockerfile'
     }
     stages {
         stage('Check and Delete Folder') {
@@ -53,15 +54,18 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                            docker.build(registry + ":$BUILD_NUMBER", "-f Project/Dockerfile .")
-                            docker.image(registry).push("${BUILD_NUMBER}")
+                            docker.build(registry + ":$BUILD_NUMBER", "-f ${dockerfilePath} .").push("${BUILD_NUMBER}")
                         }
                     }
                 }
             }
         }
     
-
+        stage('Clean Docker Image') {
+            steps {
+                sh 'docker rmi $registry:$BUILD_NUMBER'
+            }
+        }
 
 
 
