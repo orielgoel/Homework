@@ -1,6 +1,6 @@
 import requests
 import db_connector
-user_id = 3
+user_id = 13
 
 #  Creating the user with a POST
 post = requests.post(f'http://127.0.0.1:5000/data/{user_id}', json={"user_name": "oriel"})
