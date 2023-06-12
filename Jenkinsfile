@@ -3,39 +3,33 @@ pipeline {
     stages {
         stage('Pull Code From GitHub') {
             steps {
-                sh 'git clone https://github.com/orielgoel/Project.git  '
+                sh 'git clone https://github.com/orielgoel/Project.git'
             }
         }
         stage('Run rest_app') {
             steps {
-                sh 'nohup python3 /Project/rest_app.py &'
+                sh 'nohup python3 Project/rest_app.py &'
             }
         }
-        stage('Run web_app') {
+      
+        stage('Run backend_testing') {
             steps {
-                sh 'nohup python3 /Project/web_app.py &'
-            }
-        }       
-        stage('Run backend_testin') {
-            steps {
-                sh 'python3 /Project/backend_testing.py'
-            }
-        }
-        stage('Run frontend_testin') {
-            steps {
-                sh 'python3 /Project/frontend_testing.py'
+                sh 'python3 Project/backend_testing.py'
             }
         }
 
-        stage('Run combined_testing') {
-            steps {
-                sh 'python3 /Project/combined_testing.py'
-            }        
-        }
         stage('Run clean_environment') {
             steps {
-                sh 'python3 /Project/clean_environment.py'
+                sh 'python3 Project/clean_environment.py'
             }        
         }
+        stage('Delete Github Folder') {
+            steps {
+                sh 'rm -rf Project'
+            }        
+        }
+
+
+
     }
 }
