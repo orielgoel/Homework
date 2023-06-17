@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Run backend_testing') {
             steps {
-                sh 'python3 Project/backend_testing.py'
+                sh 'python3 Project/backend_testing.py ${BUILD_NUMBER}'
             }
         }
         stage('Run clean_environment') {
