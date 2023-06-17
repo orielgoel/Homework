@@ -61,11 +61,31 @@ pipeline {
             }
         }
     
-        stage('Clean Docker Image') {
+        stage('Set compose image version') {
             steps {
-                sh 'docker rmi $registry:$BUILD_NUMBER'
+                sh 'echo IMAGE_TAG=${BUILD_NUMBER} > .env'
             }
         }
+        stage('Run Docker comnpose') {
+            steps {
+                sh 'docker-compose -f Project/docker-compose.yml up -d'
+            }
+        }
+        stage('Test Docorized app') {
+            steps {
+                sh 'python3 Project/backend_testing.py ${BUILD_NUMBER}'
+            }
+        }
+        stage('Docker compose down & clean Docker image') {
+            steps {
+                sh 'docker-compose -f Project/docker-compose.yml down; docker rmi $registry:$BUILD_NUMBER'
+            }
+        }
+
+
+
+
+
 
 
 
