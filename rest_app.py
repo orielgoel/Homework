@@ -2,7 +2,7 @@ from flask import Flask, request
 from db_connector import add_user, get_user, delete_user, put_user
 
 app = Flask(__name__)
-
+print("hello from inside docker")
 # supported methods
 @app.route('/data/<user_id>', methods=['GET', 'POST', 'DELETE', 'PUT'])
 def user(user_id):
@@ -43,4 +43,4 @@ def stop_server():
     return 'Server stopped'
 
 
-app.run(host='127.0.0.1', debug=True, port=5000)
+app.run(host='0.0.0.0', debug=True, port=5000)

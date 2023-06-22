@@ -44,11 +44,6 @@ pipeline {
                 sh 'python3 Project/clean_environment.py'
             }
         }
-        stage('Set Image Build Number') {
-            steps {
-                sh 'echo IMAGE_TAG=${BUILD_NUMBER} > .env'
-            }
-        }
         stage('Build and Push Image') {
             steps {
                 script {
