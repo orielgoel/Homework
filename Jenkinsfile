@@ -71,12 +71,34 @@ pipeline {
                 sh 'python3 docker_backend_testing.py ${BUILD_NUMBER}'
             }
         }
-        stage('Docker compose down & clean Docker image') {
+        stage('Clean compose environment') {
             steps {
                 sh 'docker-compose -f docker-compose.yml down; docker rmi $registry:$BUILD_NUMBER'
             }
         }
+        stage('Deploy HELM Chart') {
+            steps {
+                sh 'helm install my-release --set image.version=your-repo:${BUILD_NUMBER}'
+            }
+        }
 
+        stage('Write service URL into k8s_url.txt') {
+            steps {
+                sh 'minikube service myapp-service --url > k8s_url.txt'
+            }
+        }
+
+        stage('Test Deployed App') {
+            steps {
+                sh 'python3 K8S_backend_testing.py'
+            }
+        }
+
+        stage('Clean HELM Environment') {
+            steps {
+                sh 'helm delete my-release'
+            }
+        }
 
 
 
