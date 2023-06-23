@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: oriel360/devops_jenkins_project:13
+  repository: oriel360/devops_jenkins_project:74
   pullPolicy: Always
   tag: ""
   

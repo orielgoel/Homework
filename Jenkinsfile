@@ -2,13 +2,13 @@ pipeline {
     agent any
     environment {
         registry = "oriel360/devops_jenkins_project" // The name of your user and repository (which can be created manually)
-        dockerfilePath = 'Project/Dockerfile'
+        dockerfilePath = 'Dockerfile'
     }
     stages {
         stage('Check and Delete Folder') {
             steps {
                 script {
-                    def folderPath = "/Users/oriel.goel/.jenkins/workspace/Project - Testing area/Project" // Replace with the actual folder path
+                    def folderPath = "/Users/oriel.goel/.jenkins/workspace/Testing_area/Project" // Replace with the actual folder path
 
                     if (fileExists(folderPath)) {
                         echo "Folder exists. Deleting..."
@@ -19,29 +19,29 @@ pipeline {
                 }
             }
         }
-        stage('Pull Code From GitHub') {
+        stage('Pull Code') {
             steps {
-                sh 'git clone https://github.com/orielgoel/Project.git'
+                git 'https://github.com/orielgoel/Project.git'
             }
         }
         stage('Update Dependencies') {
             steps {
-                sh 'pip install --upgrade urllib3 chardet requests'
+                sh 'pip install --upgrade urllib3 chardet requests --quiet'
             }
         }
         stage('Run rest_app') {
             steps {
-                sh 'nohup python3 Project/rest_app.py &'
+                sh 'nohup python3 rest_app.py &'
             }
         }
         stage('Run backend_testing') {
             steps {
-                sh 'python3 Project/backend_testing.py ${BUILD_NUMBER}'
+                sh 'python3 backend_testing.py ${BUILD_NUMBER}'
             }
         }
         stage('Run clean_environment') {
             steps {
-                sh 'python3 Project/clean_environment.py'
+                sh 'python3 clean_environment.py'
             }
         }
         stage('Build and Push Image') {
@@ -63,17 +63,17 @@ pipeline {
         }
         stage('Run Docker comnpose') {
             steps {
-                sh 'docker-compose -f Project/docker-compose.yml up -d'
+                sh 'docker-compose -f docker-compose.yml up -d'
             }
         }
         stage('Test Docorized app') {
             steps {
-                sh 'python3 Project/backend_testing.py ${BUILD_NUMBER}'
+                sh 'python3 docker_backend_testing.py ${BUILD_NUMBER}'
             }
         }
         stage('Docker compose down & clean Docker image') {
             steps {
-                sh 'docker-compose -f Project/docker-compose.yml down; docker rmi $registry:$BUILD_NUMBER'
+                sh 'docker-compose -f docker-compose.yml down; docker rmi $registry:$BUILD_NUMBER'
             }
         }
 
