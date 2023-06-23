@@ -4,8 +4,13 @@ import sys
 
 user_id = sys.argv[1]
 
+
+# Read the file contents
+with open('k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
+    file_content = file.read()
+
 #  Creating the user with a POST
-post = requests.post(f'http://127.0.0.1:5000/data/{user_id}', json={"user_name": "oriel"})
+post = requests.post(f'{file_content}/data/{user_id}', json={"user_name": "oriel"})
 if post.ok:
     print('User Created:', post.json())
 else:
@@ -14,7 +19,7 @@ else:
 
 # Checking the user exists with a GET
 try:
-    get = requests.get(f'http://127.0.0.1:5000/data/{user_id}')
+    get = requests.get(f'{file_content}/data/{user_id}')
     if get.ok:
         print('User verified and exists:', get.json())
     else:
