@@ -78,19 +78,19 @@ pipeline {
         }
         stage('Deploy HELM Chart') {
             steps {
-                sh 'helm install my-release --set image.version=your-repo:${BUILD_NUMBER}'
+                sh 'helm install my-release oci://registry-1.docker.io/oriel360/myapp --set image.version=${registry}:${BUILD_NUMBER}'
             }
         }
 
         stage('Write service URL into k8s_url.txt') {
             steps {
-                sh 'minikube service myapp-service --url > k8s_url.txt'
+                sh 'nohup minikube service myapp-service --url > k8s_url.txt &'
             }
         }
 
         stage('Test Deployed App') {
             steps {
-                sh 'python3 K8S_backend_testing.py'
+                sh 'python3 K8S_backend_testing.py ${BUILD_NUMBER}'
             }
         }
 
