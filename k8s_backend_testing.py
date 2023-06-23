@@ -7,10 +7,11 @@ user_id = sys.argv[1]
 
 # Read the file contents
 with open('k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
-    file_content = file.readline()
+    file_content = file.readline().strip()
 
 #  Creating the user with a POST
-post = requests.post(f'{file_content}/data/{user_id}', json={"user_name": "oriel"})
+url = f'{file_content}/data/{user_id}'
+post = requests.post(url, json={"user_name": "oriel"})
 if post.ok:
     print('User Created:', post.json())
 else:
