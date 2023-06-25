@@ -2,8 +2,8 @@ import requests
 import db_connector
 import sys
 
-# user_id = sys.argv[1]
-user_id = 22
+user_id = sys.argv[1]
+# user_id = 22
 
 # Read the file contents
 try:

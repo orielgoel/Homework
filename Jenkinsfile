@@ -70,7 +70,7 @@ pipeline {
 
         stage('Write service URL into k8s_url.txt') {
             steps {
-                sh 'nohup minikube service myapp-service --url > k8s_url.txt &'
+                sh 'minikube service myapp-service --url > /tmp/k8s_url.txt &'
             }
         }
 
