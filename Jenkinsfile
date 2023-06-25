@@ -5,20 +5,6 @@ pipeline {
         dockerfilePath = 'Dockerfile'
     }
     stages {
-        stage('Check and Delete Folder') {
-            steps {
-                script {
-                    def folderPath = "/Users/oriel.goel/.jenkins/workspace/Testing_area/Project" // Replace with the actual folder path
-
-                    if (fileExists(folderPath)) {
-                        echo "Folder exists. Deleting..."
-                        deleteDir() // Delete the entire workspace
-                    } else {
-                        echo "Folder does not exist."
-                    }
-                }
-            }
-        }
         stage('Pull Code') {
             steps {
                 git 'https://github.com/orielgoel/Project.git'

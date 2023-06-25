@@ -3,19 +3,23 @@ import db_connector
 import sys
 
 user_id = sys.argv[1]
-
+# user_id = 22
 
 # Read the file contents
 with open('k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
-    file_content = file.readline().strip()
+    file_content = file.readline().strip()  # Strip any leading/trailing whitespace
+
+url = f'{file_content}/data/{user_id}'
 
 #  Creating the user with a POST
-url = f'{file_content}/data/{user_id}'
 post = requests.post(url, json={"user_name": "oriel"})
-if post.ok:
+if post.status_code == 200:
     print('User Created:', post.json())
+elif post.status_code == 500:
+    print('response code 500:', post.json())
 else:
-        print('response code 500:', post.json())
+    raise Exception("test failed")
+
 
 
 # Checking the user exists with a GET
@@ -26,7 +30,7 @@ try:
     else:
         print('response code 500:', get.json())
 except:
-    print('No access to server with GET')
+    raise Exception("test failed")
 
 #  Login to the DB and pull the name of the user
-# print(add_user(user_id))
+# print(add_user('22'))
