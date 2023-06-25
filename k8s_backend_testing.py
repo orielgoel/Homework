@@ -2,12 +2,15 @@ import requests
 import db_connector
 import sys
 
-user_id = sys.argv[1]
-# user_id = 22
+# user_id = sys.argv[1]
+user_id = 22
 
 # Read the file contents
-with open('/tmp/k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
-    file_content = file.readline().strip()  # Strip any leading/trailing whitespace
+try:
+    with open('/tmp/k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
+      file_content = file.readline().strip()  # Strip any leading/trailing whitespace
+except:
+    raise Exception("test failed")
 
 url = f'{file_content}/data/{user_id}'
 
