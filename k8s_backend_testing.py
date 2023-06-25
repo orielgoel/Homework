@@ -6,7 +6,7 @@ user_id = sys.argv[1]
 # user_id = 22
 
 # Read the file contents
-with open('k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
+with open('/tmp/k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
     file_content = file.readline().strip()  # Strip any leading/trailing whitespace
 
 url = f'{file_content}/data/{user_id}'
