@@ -7,7 +7,7 @@ user_id = sys.argv[1]
 
 # Read the file contents
 try:
-    with open('/tmp/k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
+    with open('k8s_url.txt', 'r') as file:  # Replace with the actual path to your file
       file_content = file.readline().strip()  # Strip any leading/trailing whitespace
 except:
     raise Exception("test failed")
