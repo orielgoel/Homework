@@ -33,9 +33,13 @@ pipeline {
         stage('Build and Push Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                            docker.build(registry + ":$BUILD_NUMBER", "-f ${dockerfilePath} .").push("${BUILD_NUMBER}")
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials'
+passwordVariable: 'DOCKER_PASSWORD'
+usernameVariable: 'DOCKER_USERNAME')]) {
+                        docker.withRegistry('https://index.docker.io/v1/'
+'docker-hub-credentials') {
+                            docker.build(registry + ":$BUILD_NUMBER"
+"-f ${dockerfilePath} .").push("${BUILD_NUMBER}")
                         }
                     }
                 }
@@ -70,13 +74,13 @@ pipeline {
 
         stage('Write service URL into k8s_url.txt') {
             steps {
-                sh 'minikube service myapp-service --url > /tmp/k8s_url.txt &'
+                sh 'nohup minikube service myapp-service --url > k8s_url.txt 2>&1 &'
             }
         }
 
         stage('Test Deployed App') {
             steps {
-                sh 'python3 K8S_backend_testing.py ${BUILD_NUMBER}'
+                sh 'sleep 10;python3 K8S_backend_testing.py ${BUILD_NUMBER}'
             }
         }
 
