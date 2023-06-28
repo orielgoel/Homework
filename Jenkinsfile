@@ -33,13 +33,9 @@ pipeline {
         stage('Build and Push Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials'
-passwordVariable: 'DOCKER_PASSWORD'
-usernameVariable: 'DOCKER_USERNAME')]) {
-                        docker.withRegistry('https://index.docker.io/v1/'
-'docker-hub-credentials') {
-                            docker.build(registry + ":$BUILD_NUMBER"
-"-f ${dockerfilePath} .").push("${BUILD_NUMBER}")
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                            docker.build(registry + ":$BUILD_NUMBER", "-f ${dockerfilePath} .").push("${BUILD_NUMBER}")
                         }
                     }
                 }
